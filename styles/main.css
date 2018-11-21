@@ -43,10 +43,6 @@ header .details {
   clear: both;
 }
 
-.content {padding: 10px;}
-
-
-
 h3 {
   padding: 0px;
   margin: 0px;
@@ -62,27 +58,24 @@ main {
 }
 
 /* The actual timeline (the vertical ruler) */
-main::after {
+.timeline::after {
   content: '';
   position: absolute;
   width: 2px;
   height:100%;
   background-color: black;
   top: 0;
-  bottom: 0;
+  bottom:0;
   left: 50%;
   margin-left: -2px;
   z-index:-1;
+  padding-top:100px;
 }
 
 .section-header{
   display:block;
 }
 
-
-#data-point-container{
-  padding-top:100px;
-}
 #data-point {
   cursor: pointer;
   position: relative;
@@ -133,6 +126,7 @@ main::after {
   float:right;
   z-index:2;
   min-width: 70px;
+  height: 30px;
 }
 
 #data-date {
@@ -162,7 +156,7 @@ main::after {
   font-weight:600;
   width:100%;
   border-bottom:1px solid black;
-  margin-top: -18px;
+  margin-top: -7px;
   z-index:2;
 }
 
@@ -173,6 +167,10 @@ main::after {
 
 #data-point .co2{
   font-size:0.8em;
+}
+
+.point_spaver{
+  height:10px;
 }
 
 .data_right .type {
@@ -322,6 +320,78 @@ justify-content: space-between;
   left: -11px;
 }
 
+
+/* Graph CSS  */
+
+#graphspacer{
+  height:80px;
+  width:100%;
+}
+
+.graphs{
+  height:400px;
+}
+
+svg {
+  width: 100%;
+  height: 400px;
+}
+
+.bar {
+
+}
+
+text {
+  font-size: 12px;
+  fill: #000;
+}
+
+path {
+  stroke: gray;
+}
+
+line {
+  stroke: gray;
+}
+
+line#limit {
+  stroke: #FED966;
+  stroke-width: 3;
+  stroke-dasharray: 3 6;
+}
+
+.grid path {
+  stroke-width: 0;
+}
+
+.grid .tick line {
+  stroke: #9FAAAE;
+  stroke-opacity: 0.3;
+}
+
+text.divergence {
+  font-size: 14px;
+  fill: #2F4A6D;
+}
+
+text.value {
+  font-size: 14px;
+}
+
+text.title {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+text.label {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+text.source {
+  font-size: 10px;
+}
+
 @media only screen and (max-width: 600px){
   #data-point .content{
     margin: 0px !important;
@@ -329,5 +399,8 @@ justify-content: space-between;
   }
   #data-point .time {
     border-bottom:0px;
+  }
+  #title_inner{
+    font-size: 13px;
   }
 }

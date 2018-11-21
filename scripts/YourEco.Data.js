@@ -41,7 +41,7 @@ YourEco.prototype.getDocumentsInQuery = function(query, renderer) {
 
     snapshot.docChanges().forEach(function(change) {
       if (change.type === 'removed') {
-        renderer.remove(change.doc);
+
       } else {
         count ++;
 
@@ -57,5 +57,97 @@ YourEco.prototype.getDocumentsInQuery = function(query, renderer) {
         renderer.display(change.doc, count, dateString, timeString, displayDay);
       }
     });
+  });
+};
+
+YourEco.prototype.getGraphData = function(renderer, uid, timestamp, secondtimestamp) {
+  var query = firebase.firestore()
+  .collection(uid)
+  .where('timestamp', '>', timestamp)
+  .where('timestamp', '<', secondtimestamp);
+
+  console.log("getting query");
+
+  this.getGraphsInQuery(query, renderer, timestamp);
+
+};
+
+YourEco.prototype.getGraphsInQuery = function(query, renderer, timestamp) {
+  query.onSnapshot(function(snapshot) {
+    if (!snapshot.size) {
+      console.log("nothing found!");
+      return;
+    }
+
+    const sample = [0,0,0,0,0,0,0];
+    var graphdays = ["maandag", "dinsdag", "woensdag", "donderdag", "vrijdag", "zaterdag", "zondag"];
+
+    const weekdata = {      //light, garbage, shower
+      'L' : sample.slice(),
+      'G' : sample.slice(),
+      'S' : sample.slice()
+    }
+
+    var days = [];
+    for (var i = 1; i < 8; i++){
+      var nextday = new Date();
+      nextday.setDate(timestamp.getDate() + i);
+
+      nextday.setHours(3); nextday.setMinutes(0); nextday.setSeconds(0); nextday.setMilliseconds(0);
+      days.push(nextday);
+    }
+
+    snapshot.docChanges().forEach(function(change) {
+      if (change.type === 'removed') {
+
+      } else {
+
+        var data = change.doc.data();
+        var dataDate = data.timestamp.toDate();
+        console.log(dataDate);
+
+        var sensortype = data.sensor.charAt(0);
+
+        console.log("eventvalue = " + data.eventvalue);
+
+        // this code looks whether the datavalue is on which day of the week
+        if (dataDate < days[0]){
+          weekdata[sensortype][0] += data.eventvalue;
+        } else if (dataDate < days[1]){
+          weekdata[sensortype][1] += data.eventvalue;
+        } else if (dataDate< days[2]){
+          weekdata[sensortype][2] += data.eventvalue;
+        } else if (dataDate< days[3]){
+          weekdata[sensortype][3] += data.eventvalue;
+        } else if (dataDate < days[4]){
+          weekdata[sensortype][4] += data.eventvalue;
+        } else if (dataDate < days[5]){
+          weekdata[sensortype][5] += data.eventvalue;
+        } else if (dataDate < days[6]){
+          weekdata[sensortype][6] += data.eventvalue;
+        }
+      }
+    });
+
+    const calcu = [(1/60), 1, (1/60)];
+    const types = ['L','G','S'];
+    const values = ['minuten', 'gram', 'minuten'];
+    const titles = ['Licht Sensor', 'Afval Sensor', 'Douche Sensor'];
+    const weeksample = {'L' : [],'G' : [],'S' : [] };
+    for (var q = 0; q < types.length; q++){
+      for (var i = 0; i < graphdays.length; i++){
+        var object = {
+          'day': graphdays[i],
+          'value': Math.round(weekdata[types[q]][i]*calcu[q]),
+        };
+        weeksample[types[q]].push(object);
+      }
+      //renderer.display(weeksample[types[q]]); //show on the interface
+    }
+    for (var i = 0; i < types.length; i++){
+      var maximum = Math.round((Math.max.apply(Math,weekdata[types[i]])+1)*calcu[i]);
+      renderer.display(weeksample[types[i]],maximum,values[i],titles[i], types[i]);
+    }
+
   });
 };

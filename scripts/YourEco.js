@@ -45,7 +45,7 @@ function YourEco() {
     } else {
 
       var uiConfig = {
-        signInSuccessUrl: 'http://localhost:5000/',
+        signInSuccessUrl: 'http://youreco.nl/',
         signInOptions: [
           // Leave the lines as is for the providers you want to offer your users.
           firebase.auth.EmailAuthProvider.PROVIDER_ID,

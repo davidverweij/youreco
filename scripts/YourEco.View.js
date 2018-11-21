@@ -21,17 +21,20 @@ YourEco.prototype.initTemplates = function() {
   var that = this;
   document.querySelectorAll('.template').forEach(function(el) {
     that.templates[el.getAttribute('id')] = el;
+    console.log(el.getAttribute('id'));
   });
 };
 
 YourEco.prototype.viewTimeline = function() {
 
-  var mainEl = this.renderTemplate('main');
+  var mainEl = this.renderTemplate('timeline');
   var headerEl = this.renderTemplate('header-base', {
     hasSectionHeader: true
   });
 
-  headerEl.querySelector('#title_inner').append('Welkom terug ' + firebase.auth().currentUser.displayName);
+  mainEl.classList.add("main_css");
+
+  headerEl.querySelector('#title_inner').append(firebase.auth().currentUser.displayName);
   headerEl.querySelector('#dashboard_button').addEventListener('click', function(){that.router.navigate('/dashboard');});
   headerEl.querySelector('#timeline_button').addEventListener('click', function(){that.router.navigate('/timeline');});
 
@@ -41,9 +44,6 @@ YourEco.prototype.viewTimeline = function() {
     'G': 'Afval Sensor',
     'S': 'Douche Sensor'
   };
-
-
-
 
   this.replaceElement(document.querySelector('.header'), headerEl);
   this.replaceElement(document.querySelector('main'), mainEl);
@@ -120,12 +120,12 @@ YourEco.prototype.viewTimeline = function() {
 
 
 YourEco.prototype.viewDashboard = function() {
-  var mainEl = this.renderTemplate('main');
+  var mainEl = this.renderTemplate('dashboard');
   var headerEl = this.renderTemplate('header-base', {
     hasSectionHeader: true
   });
 
-  headerEl.querySelector('#title_inner').append('Welkom terug ' + firebase.auth().currentUser.displayName);
+  headerEl.querySelector('#title_inner').append(firebase.auth().currentUser.displayName);
   headerEl.querySelector('#dashboard_button').addEventListener('click', function(){that.router.navigate('/dashboard');});
   headerEl.querySelector('#timeline_button').addEventListener('click', function(){that.router.navigate('/timeline');});
 
@@ -135,19 +135,29 @@ YourEco.prototype.viewDashboard = function() {
   var that = this;
 
   var renderer = {
-    display: function(doc, number, daystring, timestring, displayday) {
-      var data = doc.data();
-      data['.id'] = doc.id;
+    display: function(sample, maximum, y_text, title, type) {     //[sample, y_text, title]
+      var el = that.renderTemplate('graphcontainer');   //create new datapoint class
+      el.querySelector('.graph_inner').id = 'graph-' + type;
+      el.querySelector('svg').id = 'svg-' + type;
+      mainEl.querySelector('#allGraphs').append(el);  //add to list of all elements
+      that.renderGraph(sample, maximum, y_text, title, type);     //[sample, y_text, title]
 
-      var el = that.renderTemplate('single-graph', data);   //create new datapoint class
-
-      mainEl.querySelector('#graphs').append(el);  //add to list of all elements
 
     }
   };
   //this.getAllDataPoints(renderer, firebase.auth().currentUser.uid);
-  this.renderGraph();
 
+  var monday = new Date();
+  var nextMonday = new Date();
+  var day = monday.getDay() || 7; // Get current day number, converting Sun. to 7
+  if (day!== 1){   monday.setHours(-24 * (day - 1)); }              // Only manipulate the date if it isn't Mon. // multiplied by negative 24
+  monday.setHours(3); monday.setMinutes(0); monday.setSeconds(0); monday.setMilliseconds(0);
+  nextMonday.setDate(monday.getDate()+7);
+  nextMonday.setHours(3); nextMonday.setMinutes(0); nextMonday.setSeconds(0); nextMonday.setMilliseconds(0);
+
+  console.log("the timestamp for comparison is: " + monday + " compared to " + nextMonday); // will be Monday
+
+  this.getGraphData(renderer, firebase.auth().currentUser.uid, monday, nextMonday);
 
 };
 

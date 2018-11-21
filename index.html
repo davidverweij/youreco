@@ -79,7 +79,7 @@ limitations under the License
       <header id="site-header" class="mdc-toolbar mdc-toolbar--fixed">
         <div id="title" class="mdc-toolbar__row mdc-layout-grid">
           <section class="mdc-toolbar__section mdc-toolbar__section--align-start">
-            <span id="title_inner" class="mdc-toolbar__title">YourEco&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;&nbsp;</span>
+            <span id="title_inner" class="mdc-toolbar__title">YourEco&nbsp;/&nbsp;</span>
             <div class="menubuttons">
               <a id="dashboard_button" class="material-icons">dashboard</a>
               <a id="timeline_button" class="material-icons">timeline</a>
@@ -92,14 +92,22 @@ limitations under the License
 
     <div id="firebaseui-auth-container"></div>
 
-    <div hidden class="template" id="main">
+    <div hidden class="template timeline" id="timeline">
       <div id="data-point-container" class="">
+        <div id='graphspacer'></div>
         <div id="data-points" class=""></div>
       </div>
     </div>
 
-    <div hidden class="template" id='graphcontainer'>
-      <svg />
+    <div hidden class="template" id="dashboard">
+      <div id='graphspacer'></div>
+      <div id='allGraphs'></div>
+    </div>
+
+    <div hidden class="template" id="graphcontainer">
+      <div class="graph_inner">
+        <svg />
+      </div>
     </div>
 
     <div hidden class="template" id="data-date">
@@ -115,6 +123,7 @@ limitations under the License
           <div class="co2"></div>
         </div>
       </div>
+      <div class="point_spacer"></div>
     </div>
   </div>
 
