@@ -30,7 +30,7 @@ body > div > i {display: none !important;}
 
 .back {float: left;}
 
-#site-header, #filter {background-color: #4CA64C;}
+#site-header, #filter {background-color: #663399;}
 
 #generic-header button {color: black;}
 
@@ -230,7 +230,7 @@ b.light {
 }
 
 #site-header .mdc-toolbar__section{
-justify-content: space-between;
+  justify-content: space-between;
 }
 
 #site-header .menubuttons{
@@ -323,18 +323,57 @@ justify-content: space-between;
 
 /* Graph CSS  */
 
+.graphnav{
+  font-size: 1.2em;
+  display: flex;
+  justify-content: space-between;
+  padding-bottom:50px;
+  color:
+}
+
+.graphnav a{
+  cursor: pointer;
+  background-color: #663399;
+  padding: 5px 20px;
+  border-radius: 10px;
+  color: white;
+  font-weight: 500;
+}
+
+.graphnav .material-icons{
+  vertical-align: top;
+  margin-top: -1px;
+}
+
+.graphnav p{
+  margin: 0px;
+}
+
+.graphnav #week {
+  padding:0px 10px;
+  font-weight:600;
+  margin-top: 8px;
+  color:#663399;
+
+}
+
 #graphspacer{
   height:80px;
   width:100%;
 }
 
+#nodata{
+  font-size:2em;
+  text-align:center;
+  width:100%;
+  padding-top:20px;
+}
 .graphs{
-  height:400px;
+
 }
 
 svg {
   width: 100%;
-  height: 400px;
 }
 
 .bar {
@@ -342,7 +381,8 @@ svg {
 }
 
 text {
-  font-size: 12px;
+  padding-top:10px;
+  font-size: 24px;
   fill: #000;
 }
 
@@ -375,16 +415,16 @@ text.divergence {
 }
 
 text.value {
-  font-size: 14px;
+  font-size: 20px;
 }
 
 text.title {
-  font-size: 22px;
+  font-size: 30px;
   font-weight: 600;
 }
 
 text.label {
-  font-size: 14px;
+  font-size: 25px;
   font-weight: 400;
 }
 
@@ -392,7 +432,7 @@ text.source {
   font-size: 10px;
 }
 
-@media only screen and (max-width: 600px){
+@media only screen and (max-width: 650px){
   #data-point .content{
     margin: 0px !important;
     width:80px;
@@ -402,5 +442,24 @@ text.source {
   }
   #title_inner{
     font-size: 13px;
+  }
+  text {
+    font-size: 35px;
+  }
+  text.value {
+    font-size: 30px;
+  }
+  text.title {
+    font-size: 45px;
+  }
+
+  text.label {
+    font-size: 35px;
+  }
+  .graphnav{
+    font-size:13px;
+  }
+  .week_text{
+    display:none;
   }
 }

@@ -21,7 +21,7 @@ YourEco.prototype.initTemplates = function() {
   var that = this;
   document.querySelectorAll('.template').forEach(function(el) {
     that.templates[el.getAttribute('id')] = el;
-    console.log(el.getAttribute('id'));
+    //console.log(el.getAttribute('id'));
   });
 };
 
@@ -35,7 +35,10 @@ YourEco.prototype.viewTimeline = function() {
   mainEl.classList.add("main_css");
 
   headerEl.querySelector('#title_inner').append(firebase.auth().currentUser.displayName);
-  headerEl.querySelector('#dashboard_button').addEventListener('click', function(){that.router.navigate('/dashboard');});
+  headerEl.querySelector('#dashboard_button').addEventListener('click', function(){
+    that.week = 0;
+    that.router.navigate('/dashboard/'+that.week);
+  });
   headerEl.querySelector('#timeline_button').addEventListener('click', function(){that.router.navigate('/timeline');});
 
 
@@ -119,15 +122,36 @@ YourEco.prototype.viewTimeline = function() {
 };
 
 
-YourEco.prototype.viewDashboard = function() {
+YourEco.prototype.viewDashboard = function(week) {
   var mainEl = this.renderTemplate('dashboard');
   var headerEl = this.renderTemplate('header-base', {
     hasSectionHeader: true
   });
 
+  if (this.week == 0){
+    mainEl.querySelector('#next_week').style.opacity = 0;
+  }
+
   headerEl.querySelector('#title_inner').append(firebase.auth().currentUser.displayName);
-  headerEl.querySelector('#dashboard_button').addEventListener('click', function(){that.router.navigate('/dashboard');});
+  headerEl.querySelector('#dashboard_button').addEventListener('click', function(){
+    that.week = 0;
+    that.router.navigate('/dashboard/'+that.week);
+  });
   headerEl.querySelector('#timeline_button').addEventListener('click', function(){that.router.navigate('/timeline');});
+
+  mainEl.querySelector('#previous_week').addEventListener('click', function(){
+    if (that.weekData){
+      that.week-=1;
+      that.router.navigate('/dashboard/'+that.week)
+    }
+  });
+
+  mainEl.querySelector('#next_week').addEventListener('click', function(){
+    if (that.week<0){
+      that.week+=1;
+      return that.router.navigate('/dashboard/'+that.week)
+    }
+  });
 
   this.replaceElement(document.querySelector('.header'), headerEl);
   this.replaceElement(document.querySelector('main'), mainEl);
@@ -136,26 +160,35 @@ YourEco.prototype.viewDashboard = function() {
 
   var renderer = {
     display: function(sample, maximum, y_text, title, type) {     //[sample, y_text, title]
+      that.weekData = true;
       var el = that.renderTemplate('graphcontainer');   //create new datapoint class
       el.querySelector('.graph_inner').id = 'graph-' + type;
       el.querySelector('svg').id = 'svg-' + type;
       mainEl.querySelector('#allGraphs').append(el);  //add to list of all elements
       that.renderGraph(sample, maximum, y_text, title, type);     //[sample, y_text, title]
-
-
+    },
+    empty: function(){
+      that.weekData = false;
+      mainEl.querySelector('#previous_week').style.opacity = 0;
+      var el = that.renderTemplate('nodata');   //create new datapoint class
+      mainEl.querySelector('#allGraphs').append(el);  //add to list of all elements
+      that.renderGraph(sample, maximum, y_text, title, type);     //[sample, y_text, title]
     }
   };
   //this.getAllDataPoints(renderer, firebase.auth().currentUser.uid);
 
   var monday = new Date();
-  var nextMonday = new Date();
+  monday.setDate(monday.getDate()+ (7* week));
   var day = monday.getDay() || 7; // Get current day number, converting Sun. to 7
   if (day!== 1){   monday.setHours(-24 * (day - 1)); }              // Only manipulate the date if it isn't Mon. // multiplied by negative 24
   monday.setHours(3); monday.setMinutes(0); monday.setSeconds(0); monday.setMilliseconds(0);
-  nextMonday.setDate(monday.getDate()+7);
-  nextMonday.setHours(3); nextMonday.setMinutes(0); nextMonday.setSeconds(0); nextMonday.setMilliseconds(0);
 
-  console.log("the timestamp for comparison is: " + monday + " compared to " + nextMonday); // will be Monday
+  var nextMonday = new Date(monday.getTime());
+  nextMonday.setDate(nextMonday.getDate() + 7);
+
+  var options = {month: 'long', day: 'numeric' };
+  mainEl.querySelector('#week').append(monday.toLocaleDateString('nl-NL', options) + '   -   ' + nextMonday.toLocaleDateString('nl-NL', options));
+  //console.log("the timestamp for comparison is: " + monday.toDateString() + " compared to " + nextMonday.toDateString()); // will be Monday
 
   this.getGraphData(renderer, firebase.auth().currentUser.uid, monday, nextMonday);
 

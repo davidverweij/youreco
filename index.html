@@ -101,6 +101,11 @@ limitations under the License
 
     <div hidden class="template" id="dashboard">
       <div id='graphspacer'></div>
+      <div class="graphnav">
+        <a id="previous_week"><span class="material-icons">skip_previous</span><span class="week_text"> Vorige Week</span></a>
+        <p id="week"></p>
+        <a id="next_week"><span class="week_text">Volgende Week </span><span class="material-icons">skip_next</span></a>
+      </div>
       <div id='allGraphs'></div>
     </div>
 
@@ -108,6 +113,11 @@ limitations under the License
       <div class="graph_inner">
         <svg />
       </div>
+      <div class="graph_seperator"></div>
+    </div>
+
+    <div hidden class="template" id="nodata">
+      <p>Sorry - er is geen data van voor deze weken!</p>
     </div>
 
     <div hidden class="template" id="data-date">

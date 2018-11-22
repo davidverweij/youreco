@@ -66,7 +66,7 @@ YourEco.prototype.getGraphData = function(renderer, uid, timestamp, secondtimest
   .where('timestamp', '>', timestamp)
   .where('timestamp', '<', secondtimestamp);
 
-  console.log("getting query");
+  //console.log("getting query");
 
   this.getGraphsInQuery(query, renderer, timestamp);
 
@@ -75,12 +75,12 @@ YourEco.prototype.getGraphData = function(renderer, uid, timestamp, secondtimest
 YourEco.prototype.getGraphsInQuery = function(query, renderer, timestamp) {
   query.onSnapshot(function(snapshot) {
     if (!snapshot.size) {
-      console.log("nothing found!");
+      renderer.empty();
       return;
     }
 
     const sample = [0,0,0,0,0,0,0];
-    var graphdays = ["maandag", "dinsdag", "woensdag", "donderdag", "vrijdag", "zaterdag", "zondag"];
+    var graphdays = ["Ma", "Di", "Wo", "Do", "Vrij", "Za", "Zo"];
 
     const weekdata = {      //light, garbage, shower
       'L' : sample.slice(),
@@ -104,11 +104,11 @@ YourEco.prototype.getGraphsInQuery = function(query, renderer, timestamp) {
 
         var data = change.doc.data();
         var dataDate = data.timestamp.toDate();
-        console.log(dataDate);
+        //console.log(dataDate);
 
         var sensortype = data.sensor.charAt(0);
 
-        console.log("eventvalue = " + data.eventvalue);
+        //console.log("eventvalue = " + data.eventvalue);
 
         // this code looks whether the datavalue is on which day of the week
         if (dataDate < days[0]){

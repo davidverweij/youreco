@@ -21,6 +21,8 @@
 function YourEco() {
 
   this.dialogs = {};
+  this.week = 0;
+  this.weekData = true;
   this.currentUid = "";
 
   firebase.firestore().settings({ timestampsInSnapshots: true });
@@ -83,31 +85,8 @@ YourEco.prototype.initRouter = function() {
     }
   })
   .on({
-    '/dashboard': function() {
-      that.viewDashboard();
-    }
-  })
-  .resolve();
-};
-
-YourEco.prototype.naviRouter = function(destination) {
-  this.router = new Navigo();
-
-  var that = this;
-  this.router
-  .on({
-    '/success': function() {
-      that.viewTimeline(firebase.auth().currentUser.uid);
-    }
-  })
-  .on({
-    '/timeline': function() {
-      that.viewTimeline('nothing');
-    }
-  })
-  .on({
-    '/dashboard': function() {
-      that.viewTimeline('nothing');
+    '/dashboard/:id': function(params) {      
+      that.viewDashboard(params.id);
     }
   })
   .resolve();
