@@ -75,11 +75,34 @@ limitations under the License
     <div class="header"></div>
     <main></main>
 
-    <div hidden class="template" id="header-base">
+    <div hidden class="template" id="header-base-dashboard">
       <header id="site-header" class="mdc-toolbar mdc-toolbar--fixed">
         <div id="title" class="mdc-toolbar__row mdc-layout-grid">
           <section class="mdc-toolbar__section mdc-toolbar__section--align-start">
             <span id="title_inner" class="mdc-toolbar__title">YourEco&nbsp;/&nbsp;</span>
+            <div class="menubuttons">
+              <a id="dashboard_button" class="material-icons">dashboard</a>
+              <a id="timeline_button" class="material-icons">timeline</a>
+            </div>
+          </section>
+        </div>
+        <div id="section-header" data-fir-if="hasSectionHeader"></div>
+      </header>
+    </div>
+
+    <div hidden class="template" id="header-base-timeline">
+      <header id="site-header" class="mdc-toolbar mdc-toolbar--fixed">
+        <div id="title" class="mdc-toolbar__row mdc-layout-grid">
+          <section class="mdc-toolbar__section mdc-toolbar__section--align-start">
+            <span id="title_inner" class="mdc-toolbar__title">YourEco&nbsp;/&nbsp;</span>
+
+            <div class="menubuttons filters">
+              <span id="filter_inner" class="mdc-toolbar__title">filters</span>
+              <a id="filter-light"><img src="/images/icons/L.png" /></a>
+              <a id="filter-garbage"><img src="/images/icons/G.png" /></a>
+              <a id="filter-shower"><img src="/images/icons/S.png" /></a>
+              <a id="filter-reset" class="material-icons">refresh</a>
+            </div>
             <div class="menubuttons">
               <a id="dashboard_button" class="material-icons">dashboard</a>
               <a id="timeline_button" class="material-icons">timeline</a>
@@ -110,6 +133,13 @@ limitations under the License
     </div>
 
     <div hidden class="template" id="graphcontainer">
+      <div class="graph_total">
+        <div class="graph_total_inner">
+        <div class="title">TOTAAL</div>
+        <div class="totalvalues1"></div>
+        <div class="totalvalues2"></div>
+      </div>
+      </div>
       <div class="graph_inner">
         <svg />
       </div>

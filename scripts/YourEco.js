@@ -42,7 +42,10 @@ function YourEco() {
       var email = user.email;
       var emailVerified = user.emailVerified;
 
-      that.viewTimeline(firebase.auth().currentUser.uid);
+      firebase.firestore().collection('users').doc(user.uid).set({'last_online':new Date()});
+      firebase.firestore().collection('users').doc(user.uid).collection('visits').add({'timestamp':new Date()});
+
+      that.viewTimeline();
       // [END_EXCLUDE]
     } else {
 
@@ -85,7 +88,7 @@ YourEco.prototype.initRouter = function() {
     }
   })
   .on({
-    '/dashboard/:id': function(params) {      
+    '/dashboard/:id': function(params) {
       that.viewDashboard(params.id);
     }
   })

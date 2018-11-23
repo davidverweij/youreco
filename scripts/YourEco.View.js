@@ -28,7 +28,7 @@ YourEco.prototype.initTemplates = function() {
 YourEco.prototype.viewTimeline = function() {
 
   var mainEl = this.renderTemplate('timeline');
-  var headerEl = this.renderTemplate('header-base', {
+  var headerEl = this.renderTemplate('header-base-timeline', {
     hasSectionHeader: true
   });
 
@@ -39,6 +39,30 @@ YourEco.prototype.viewTimeline = function() {
     that.week = 0;
     that.router.navigate('/dashboard/'+that.week);
   });
+
+  headerEl.querySelector('#filter-light').addEventListener('click', function(){
+    var x = document.querySelectorAll('.data-garbage,.data-shower');
+    for (var q = 0; q < x.length; q++){x[q].style.opacity = 0;};
+    var y = document.querySelectorAll('.data-light');
+    for (var z = 0; z < y.length; z++){y[z].style.opacity = 1;};
+  });
+  headerEl.querySelector('#filter-garbage').addEventListener('click', function(){
+    var x = document.querySelectorAll('.data-light,.data-shower');
+    for (var q = 0; q < x.length; q++){x[q].style.opacity = 0;};
+    var y = document.querySelectorAll('.data-garbage');
+    for (var z = 0; z < y.length; z++){y[z].style.opacity = 1;};
+  });
+  headerEl.querySelector('#filter-shower').addEventListener('click', function(){
+    var x = document.querySelectorAll('.data-garbage,.data-light');
+    for (var q = 0; q < x.length; q++){x[q].style.opacity = 0;};
+    var y = document.querySelectorAll('.data-shower');
+    for (var z = 0; z < y.length; z++){y[z].style.opacity = 1;};
+  });
+  headerEl.querySelector('#filter-reset').addEventListener('click', function(){
+    var x = document.querySelectorAll('.data-garbage,.data-shower,.data-light');
+    for (var q = 0; q < x.length; q++){x[q].style.opacity = 1;};
+  });
+
   headerEl.querySelector('#timeline_button').addEventListener('click', function(){that.router.navigate('/timeline');});
 
 
@@ -54,7 +78,7 @@ YourEco.prototype.viewTimeline = function() {
   var that = this;
 
   var renderer = {
-    display: function(doc, number, daystring, timestring, displayday) {
+    display: function(doc, number, daystring, timestring, displayday, extra_padding_top) {
       var data = doc.data();
       data['.id'] = doc.id;
 
@@ -71,20 +95,22 @@ YourEco.prototype.viewTimeline = function() {
       var eventMonoxide = '';
       var sensortype = data.sensor.charAt(0);
 
+      el.style.marginBottom =  extra_padding_top + 'px';
+
       switch (sensortype){
         case 'L':
         el.classList.add("data-light"); // icon and color
-        eventMonoxide = '+- ' + (eventValue * 0.0025).toFixed(2) + ' g CO2';
+        eventMonoxide = '~' + (eventValue * 0.0025).toFixed(2) + 'g CO2';
         eventValueText = (eventValue / 60).toFixed(0) +' minuten';       // data unit
         break;
         case 'S':
         el.classList.add("data-shower");  // icon and color
-        eventMonoxide = '+- ' + (eventValue * 0.5).toFixed(0) + ' g CO2';
+        eventMonoxide = '~' + (eventValue * 0.5).toFixed(0) + 'g CO2';
         eventValueText = (eventValue / 60).toFixed(0) +' minuten';       // data unit
         break;
         case 'G':
         el.classList.add("data-garbage"); // icon and color
-        eventMonoxide = '+- ' + (eventValue*0.7).toFixed(0) + ' g CO2';
+        eventMonoxide = '~' + (eventValue*0.7).toFixed(0) + 'g CO2';
         eventValueText = eventValue + ' gram';       // data unit
         break;
         default:
@@ -92,7 +118,7 @@ YourEco.prototype.viewTimeline = function() {
         break;
       }
 
-      el.querySelector('.time').append(timestring);  //add the timestamp of the sensorreading
+      el.querySelector('.time').append(timestring + ' - ' + data.sensor);  //add the timestamp of the sensorreading
 
       el.onclick = function () {
         alert("Om " + timestring
@@ -124,7 +150,7 @@ YourEco.prototype.viewTimeline = function() {
 
 YourEco.prototype.viewDashboard = function(week) {
   var mainEl = this.renderTemplate('dashboard');
-  var headerEl = this.renderTemplate('header-base', {
+  var headerEl = this.renderTemplate('header-base-dashboard', {
     hasSectionHeader: true
   });
 
@@ -157,11 +183,51 @@ YourEco.prototype.viewDashboard = function(week) {
   this.replaceElement(document.querySelector('main'), mainEl);
 
   var that = this;
+  const co2calcu = {
+    'L': (60*0.0025),
+    'G': 0.5,
+    'S': (60*0.7)
+  };
+  const multivalues = {
+    'L': 60,
+    'G': 1000,
+    'S': 60
+  };
+  const totalvalues = {
+    'L': 'minuten',
+    'G': 'gram',
+    'S': 'minuten',
+    'L2': 'uur',
+    'G2': 'kilogram',
+    'S2': 'uur'
+  };
 
   var renderer = {
-    display: function(sample, maximum, y_text, title, type) {     //[sample, y_text, title]
+    display: function(sample, maximum, y_text, title, type, totaldata) {     //[sample, y_text, title]  //ToDo: am here!
       that.weekData = true;
       var el = that.renderTemplate('graphcontainer');   //create new datapoint class
+
+      var additive = '';
+      var co2unit = 'g';
+      var co2result = totaldata * co2calcu[type];
+
+      if (totaldata > multivalues[type]) {
+        totaldata = totaldata/multivalues[type];
+        additive = '2';
+      }
+      if (co2result>1000) {
+        co2result = co2result/1000;
+        co2unit = 'kg';
+      }
+
+
+
+      el.querySelector('.graph_total').classList.add("totalgraph-"+ type);  // color
+      if (type === 'S' || type === 'G') el.querySelector('.title').prepend(document.createElement("br"));
+      el.querySelector('.totalvalues1').append(Math.round(totaldata) + ' ' + totalvalues[type+additive]);
+      el.querySelector('.totalvalues2').append('~' + co2result.toFixed(0) + co2unit + ' CO2');
+
+
       el.querySelector('.graph_inner').id = 'graph-' + type;
       el.querySelector('svg').id = 'svg-' + type;
       mainEl.querySelector('#allGraphs').append(el);  //add to list of all elements
@@ -175,6 +241,7 @@ YourEco.prototype.viewDashboard = function(week) {
       that.renderGraph(sample, maximum, y_text, title, type);     //[sample, y_text, title]
     }
   };
+
   //this.getAllDataPoints(renderer, firebase.auth().currentUser.uid);
 
   var monday = new Date();

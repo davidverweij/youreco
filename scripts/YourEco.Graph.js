@@ -6,7 +6,7 @@ YourEco.prototype.renderGraph = function(sample, sample_max, y_text, title_text,
   const svg = d3.select('#svg-'+type);
   const svgContainer = d3.select('#graph-'+type);
 
-  const maxY =  Math.max(sample_max, 10);
+  const maxY =  Math.max(sample_max*1.1, 10);
 
   const margin = 80;
   const width = 1000 - 2 * margin;
@@ -68,7 +68,7 @@ YourEco.prototype.renderGraph = function(sample, sample_max, y_text, title_text,
     .append('text')
     .attr('class', 'value')
     .attr('x', (a) => xScale(a.day) + xScale.bandwidth() / 2)
-    .attr('y', (a) => yScale(a.value) - 30)
+    .attr('y', (a) => yScale(a.value) - 10)
     .attr('text-anchor', 'middle')
     .text((a) => `${a.value}`)
 

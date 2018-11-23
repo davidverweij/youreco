@@ -30,7 +30,7 @@ body > div > i {display: none !important;}
 
 .back {float: left;}
 
-#site-header, #filter {background-color: #663399;}
+#site-header {background-color: #663399;}
 
 #generic-header button {color: black;}
 
@@ -57,19 +57,26 @@ main {
   height:100%;
 }
 
-/* The actual timeline (the vertical ruler) */
+/* The actual timeline (the vertical ruler)
 .timeline::after {
-  content: '';
-  position: absolute;
-  width: 2px;
-  height:100%;
-  background-color: black;
-  top: 0;
-  bottom:0;
-  left: 50%;
-  margin-left: -2px;
-  z-index:-1;
-  padding-top:100px;
+content: '';
+position: absolute;
+width: 2px;
+height:100%;
+background-color: black;
+top: 0;
+bottom:0;
+left: 50%;
+margin-left: -2px;
+z-index:-1;
+padding-top:100px;
+}*/
+
+.timeline{
+  background-image:url(/images/timelinebackground.png);
+  background-repeat: repeat-y;
+  background-position: center top;
+  background-size:3px auto;
 }
 
 .section-header{
@@ -126,7 +133,7 @@ main {
   float:right;
   z-index:2;
   min-width: 70px;
-  height: 30px;
+  height: 20px;
 }
 
 #data-date {
@@ -201,7 +208,7 @@ main {
 }
 
 #data-point .data {
-  padding: 20px 30px;
+  padding: 20px 30px 7px 30px;
   position: relative;
   border-radius: 6px;
 }
@@ -327,8 +334,25 @@ b.light {
   font-size: 1.2em;
   display: flex;
   justify-content: space-between;
-  padding-bottom:50px;
-  padding: 0px 20px;
+  padding: 0px 20px 50px 20px;
+}
+.graph_total {
+
+}
+
+.filters img{
+  -webkit-filter: brightness(0) invert(1);
+  filter: brightness(0) invert(1);
+  height: 23px;
+}
+
+.filters a{
+  padding:10px!important;
+}
+
+#filter_inner {
+  top:0px!important;
+  font-size:10px;
 }
 
 .graphnav a{
@@ -367,6 +391,56 @@ b.light {
   text-align:center;
   width:100%;
   padding-top:20px;
+}
+
+#allGraphs #graphcontainer{
+  display: flex;
+}
+
+.graph_inner{
+  width:70%;
+  padding-right: 20px;
+}
+.graph_total{
+  width:30%;
+  display: flex;
+justify-content: center;
+align-items: center;
+}
+
+.graph_total_inner{
+
+  padding:40px 20px;
+  text-align:center;
+  color: white;
+  font-size:12px;
+  border-radius:10px;
+  background-repeat: no-repeat;
+  background-size:contain;
+  background-position:center center;
+  width:100%;
+}
+.totalgraph-L .graph_total_inner{
+  background-image: url('/images/icons/L.png');
+  color: #663399;
+  padding-bottom: 70px;
+  /*background-color: #f9d644;*/
+}
+
+.totalgraph-G .graph_total_inner{
+  background-image: url('/images/icons/G.png');
+  /*background-color: #64b46a;*/
+}
+.totalgraph-S .graph_total_inner{
+  background-image: url('/images/icons/S.png');
+  /*background-color: #51a1d6;*/
+}
+
+
+.graph_total_inner .title{
+  font-weight:600;
+  font-size:1.2em;
+
 }
 .graphs{
 
@@ -433,6 +507,17 @@ text.source {
 }
 
 @media only screen and (max-width: 650px){
+  #allGraphs #graphcontainer{
+    display:block;
+  }
+  .graph_inner{
+    width:100%;
+  }
+  .graph_total{
+    width:100%;
+    padding: 40px 0px 20px 0px;
+  }
+
   #data-point .content{
     margin: 0px !important;
     width:80px;
@@ -458,8 +543,18 @@ text.source {
   }
   .graphnav{
     font-size:13px;
+    padding: 0 20px 0 20px;
+  }
+  .graphnav a{
+    padding: 5px 5px;
   }
   .week_text{
     display:none;
+  }
+  #filter_inner{
+    display:none;
+  }
+  .filters img{
+    height:20px;
   }
 }

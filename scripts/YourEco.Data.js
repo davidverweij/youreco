@@ -30,7 +30,9 @@ YourEco.prototype.getDocumentsInQuery = function(query, renderer) {
 
     var count = 0;
     var previousday = null;
+    var extra_padding_top = 0;
     var day;
+    var time;
     var days = ["zondag", "maandag", "dinsdag", "woensdag", "donderdag", "vrijdag", "zaterdag"];
     var monthNames = [
       "januari", "februari", "maart",
@@ -48,13 +50,20 @@ YourEco.prototype.getDocumentsInQuery = function(query, renderer) {
         var date = change.doc.data().timestamp.toDate();
         day = date.getDate();
         var dateString = days[date.getDay()] + ' ' + day + ' ' + monthNames[date.getMonth()] + ' ' + date.getFullYear();
-        var timeString = date.toLocaleTimeString();//date.getHours() + ":" + date.getMinutes();
+        var timeString = date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});//date.getHours() + ":" + date.getMinutes();
 
         var displayDay = false;
-        if (day != previousday) displayDay = true;
+        if (day != previousday) {
+          displayDay = true;
+          extra_padding_top = 0;
+        } else {
+          var timediff_minutes = Math.round((date.getTime()-time)/1000/60);
+          extra_padding_top = Math.min(60, Math.max(0, timediff_minutes));
+        }
+        time = date.getTime();
         previousday = day;
 
-        renderer.display(change.doc, count, dateString, timeString, displayDay);
+        renderer.display(change.doc, count, dateString, timeString, displayDay, extra_padding_top);
       }
     });
   });
@@ -86,7 +95,13 @@ YourEco.prototype.getGraphsInQuery = function(query, renderer, timestamp) {
       'L' : sample.slice(),
       'G' : sample.slice(),
       'S' : sample.slice()
-    }
+    };
+
+    const totaldata = {
+      'L': 0,
+      'G': 0,
+      'S': 0,
+    };
 
     var days = [];
     for (var i = 1; i < 8; i++){
@@ -107,6 +122,8 @@ YourEco.prototype.getGraphsInQuery = function(query, renderer, timestamp) {
         //console.log(dataDate);
 
         var sensortype = data.sensor.charAt(0);
+
+        totaldata[sensortype]+= data.eventvalue;
 
         //console.log("eventvalue = " + data.eventvalue);
 
@@ -132,7 +149,7 @@ YourEco.prototype.getGraphsInQuery = function(query, renderer, timestamp) {
     const calcu = [(1/60), 1, (1/60)];
     const types = ['L','G','S'];
     const values = ['minuten', 'gram', 'minuten'];
-    const titles = ['Licht Sensor', 'Afval Sensor', 'Douche Sensor'];
+    const titles = ['Verlichting', 'Afval', 'Douche'];
     const weeksample = {'L' : [],'G' : [],'S' : [] };
     for (var q = 0; q < types.length; q++){
       for (var i = 0; i < graphdays.length; i++){
@@ -146,7 +163,7 @@ YourEco.prototype.getGraphsInQuery = function(query, renderer, timestamp) {
     }
     for (var i = 0; i < types.length; i++){
       var maximum = Math.round((Math.max.apply(Math,weekdata[types[i]])+1)*calcu[i]);
-      renderer.display(weeksample[types[i]],maximum,values[i],titles[i], types[i]);
+      renderer.display(weeksample[types[i]],maximum,values[i],titles[i], types[i], totaldata[types[i]]);
     }
 
   });
