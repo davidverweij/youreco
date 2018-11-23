@@ -5,7 +5,18 @@
       "firebase.json",
       "database-rules.json",
       "storage.rules",
-      "functions"
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "redirects": [ {
+      "source": "/timeline",
+      "destination": "https://youreco.nl",
+      "type": 301
+    },
+    {
+      "source": "/dashboard/*",
+      "destination": "https://youreco.nl",
+      "type": 301}
     ],
     "headers": [
       {
@@ -26,7 +37,11 @@
     ]
   },
   "firestore": {
-    "rules": "firestore.rules",
-    "indexes": "firestore.indexes.json"
+    "rules": "firestore.rules"
+  },
+  "functions": {
+    "predeploy": [
+      "npm --prefix \"$RESOURCE_DIR\" run lint"
+    ]
   }
 }

@@ -1,7 +1,7 @@
 {
-  "name": "fireats",
+  "name": "youreco",
   "version": "0.0.0",
-  "description": "Starting point for the Cloud Firestore codelab",
+  "description": "research app for youreco project",
   "main": ".",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -13,6 +13,8 @@
     "prettier": "^1.5.3"
   },
   "dependencies": {
-    "firebaseui": "^3.4.1"
+    "es6-promise": "^4.2.5",
+    "firebaseui": "^3.4.1",
+    "isomorphic-fetch": "^2.2.1"
   }
 }

@@ -16,7 +16,7 @@ YourEco.prototype.renderGraph = function(sample, sample_max, y_text, title_text,
   .attr("preserveAspectRatio", "xMinYMin meet")
   .attr("viewBox", "0 0 1000 500")
   .append('g')
-  .attr('transform', `translate(${margin}, ${margin})`)
+  .attr('transform', `translate(${margin+50}, ${margin})`)
 
   const xScale = d3.scaleBand()
   .range([0, width])
@@ -76,7 +76,7 @@ YourEco.prototype.renderGraph = function(sample, sample_max, y_text, title_text,
     .append('text')
     .attr('class', 'label')
     .attr('x', -(height / 2) - margin)
-    .attr('y', margin / 3.5)
+    .attr('y', margin / 2)
     .attr('transform', 'rotate(-90)')
     .attr('text-anchor', 'middle')
     .text(y_text)

@@ -328,7 +328,7 @@ b.light {
   display: flex;
   justify-content: space-between;
   padding-bottom:50px;
-  color:
+  padding: 0px 20px;
 }
 
 .graphnav a{
