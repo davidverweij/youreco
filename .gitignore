@@ -3,8 +3,11 @@
 /functions/node_modules/
 /functions/credentials.js
 .firebase/
+config.js
 
 .DS_Store
+
+
 
 .idea
 **/node_modules/*
