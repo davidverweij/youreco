@@ -1,6 +1,7 @@
 {
-  "hosting": {
-    "public": "./",
+  "hosting": [{
+    "target": "app",
+    "public": "app/",
     "ignore": [
       "firebase.json",
       "database-rules.json",
@@ -10,12 +11,12 @@
     ],
     "redirects": [ {
       "source": "/timeline",
-      "destination": "https://youreco.nl",
+      "destination": "/",
       "type": 301
     },
     {
       "source": "/dashboard/*",
-      "destination": "https://youreco.nl",
+      "destination": "/",
       "type": 301}
     ],
     "headers": [
@@ -36,6 +37,44 @@
       }
     ]
   },
+  {
+    "target": "demo",
+    "public": "demo/",
+    "ignore": [
+      "firebase.json",
+      "database-rules.json",
+      "storage.rules",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "redirects": [ {
+      "source": "/timeline",
+      "destination": "/",
+      "type": 301
+    },
+    {
+      "source": "/dashboard/*",
+      "destination": "/",
+      "type": 301}
+    ],
+    "headers": [
+      {
+        "source": "**/*.@(js|html)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "max-age=0"
+          }
+        ]
+      }
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }],
   "firestore": {
     "rules": "firestore.rules"
   },

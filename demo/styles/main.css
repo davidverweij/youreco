@@ -1,0 +1,609 @@
+
+
+/**
+* Copyright 2015 Google Inc. All Rights Reserved.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*      http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+html,
+body {
+  font-family: 'Roboto', 'Helvetica', sans-serif;
+  margin: 0px;
+  padding: 0px;
+
+}
+
+body > div > i {display: none !important;}
+
+
+.mdc-dialog__body {padding-bottom: 7px;}
+
+.back {float: left;}
+
+#site-header {background-color: #663399;}
+
+#generic-header button {color: black;}
+
+header {display: flex !important;}
+
+.mdc-layout__header--transparent {background: url('../assets/demos/transparent.jpg') center / cover;}
+
+header .details {
+  width: 100%;
+  clear: both;
+}
+
+h3 {
+  padding: 0px;
+  margin: 0px;
+}
+
+header .mdc-button .material-icons {font-size: 22px;}
+
+main {
+  max-width: 1024px;
+  margin: 0px auto;
+  z-index:-2;
+  height:100%;
+}
+
+/* The actual timeline (the vertical ruler)
+.timeline::after {
+content: '';
+position: absolute;
+width: 2px;
+height:100%;
+background-color: black;
+top: 0;
+bottom:0;
+left: 50%;
+margin-left: -2px;
+z-index:-1;
+padding-top:100px;
+}*/
+
+.timeline{
+  background-image:url(/images/timelinebackground.png);
+  background-repeat: repeat-y;
+  background-position: center top;
+  background-size:3px auto;
+}
+
+.section-header{
+  display:block;
+}
+
+#data-point {
+  cursor: pointer;
+  position: relative;
+  background-color: inherit;
+  width: 50%;
+}
+
+/* The circles on the timeline */
+#data-point::before {
+  content: '';
+  position: absolute;
+  right:0px;
+  width: 150px;
+  border-top: 1px solid black;
+  top:31px;
+}
+
+.data_right::before {
+  left: 0px;
+}
+
+#data-point::after {
+  content: '';
+  position: absolute;
+  width: 15px;
+  height: 15px;
+  right: -7px;
+  top: 25px;
+  border-radius: 50%;
+  z-index: 1;
+}
+
+#data-point .type {
+  height:30px;
+  width:30px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  position:absolute;
+  right:130px;
+  z-index:1;
+}
+
+#data-point .content{
+  width:40%;
+  text-align:center;
+  margin-right:50%;
+  float:right;
+  z-index:2;
+  min-width: 70px;
+  height: 20px;
+}
+
+#data-date {
+  width: 100%;
+  text-align: center;
+  color: black;
+  font-size: 1.2em;
+  font-weight: bold;
+  padding: 60px 0px 30px 0px;
+  z-index: 1;
+
+}
+
+#data-date .date{
+  background: white;
+  padding: 10px;
+  z-index: 2;
+}
+
+.data_right .content{
+  margin-left: 50%;
+  float:left!important;
+  margin-right:0px;
+}
+
+#data-point .time {
+  font-weight:600;
+  width:100%;
+  border-bottom:1px solid black;
+  margin-top: -7px;
+  z-index:2;
+}
+
+#data-point .value {
+  font-style:italic;
+  z-index:2;
+}
+
+#data-point .co2{
+  font-size:0.8em;
+}
+
+.point_spaver{
+  height:10px;
+}
+
+.data_right .type {
+  left:130px;
+}
+
+.data-light .type{
+  background-image: url('/images/icons/L.png');
+}
+
+.data-garbage .type{
+  background-image: url('/images/icons/G.png');
+}
+
+.data-shower .type{
+  background-image: url('/images/icons/S.png');
+}
+
+.data-light::after{
+  background-color: #f9d644;
+}
+
+.data-garbage::after{
+  background-color: #64b46a;
+}
+.data-shower::after{
+  background-color: #51a1d6;
+}
+
+#data-point .data {
+  padding: 20px 30px 7px 30px;
+  position: relative;
+  border-radius: 6px;
+}
+
+.data_left{
+  left: 0px;
+}
+
+.data_right{
+  left:50%;
+}
+
+.data_right::after {
+  left: -8px;
+}
+
+
+b.light {
+  font-weight: normal;
+  opacity: 0.5;
+}
+
+#site-header a {
+  color: white;
+  text-decoration: none;
+}
+
+#site-header .mdc-toolbar__section{
+  justify-content: space-between;
+}
+
+#site-header .menubuttons{
+  font-size:30px;
+}
+
+#site-header .menubuttons a {
+  padding: 10px 20px 10px 10px;
+  cursor:pointer;
+}
+#site-header .menubuttons a:hover {
+  color:lightgrey;
+}
+
+#site-header .mdc-toolbar__icon--menu {
+  font-size: 26px;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding-right: 0px;
+  padding-left: 0px;
+}
+
+#site-header .mdc-toolbar__title {
+  position: relative;
+  top: -5px;
+}
+
+#site-header .mdc-toolbar__title {
+  padding: 10px 0px 0px 0px;
+  margin: 0px;
+}
+
+#site-header #title {
+  padding-bottom: 0px;
+  padding-top: 0px;
+  max-width: 1024px;
+}
+
+#placeholder-config {
+  padding: 20px;
+  opacity: 0.8;
+  font-size: 16px;
+}
+
+#placeholder-config .text {
+  width: 100%;
+  padding-bottom: 20px;
+}
+
+#placeholder-config .mdc-button__ripple-container {float: right;}
+
+#guy-container {padding-top: 100px; text-align: center;}
+
+#guy-container .mdc-button {background-color: #ccc;}
+
+.guy {
+  max-width: 200px;
+  margin-bottom: 20px;
+}
+
+#no-results {
+  margin-top: 170px;
+}
+.material-icons#close {
+  color: white;
+  text-shadow: #000 1px 1px 2px;
+  cursor: pointer;
+  text-decoration: none;
+  display: block;
+  height: 50px;
+  width: 100%;
+}
+
+.fab-container {
+  height: 0px;
+}
+
+.max_width_600 {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.fab .material-icons {
+  position: relative;
+  top: -11px;
+  left: -11px;
+}
+
+
+/* Graph CSS  */
+
+.graphnav{
+  font-size: 1.2em;
+  display: flex;
+  justify-content: space-between;
+  padding: 0px 20px 50px 20px;
+}
+.graph_total {
+
+}
+
+.filters img{
+  -webkit-filter: brightness(0) invert(1);
+  filter: brightness(0) invert(1);
+  height: 23px;
+}
+
+.filters a{
+  padding:10px!important;
+}
+
+#filter_inner {
+  top:0px!important;
+  font-size:10px;
+}
+
+.graphnav a{
+  cursor: pointer;
+  background-color: #663399;
+  padding: 5px 20px;
+  border-radius: 10px;
+  color: white;
+  font-weight: 500;
+}
+
+.graphnav .material-icons{
+  vertical-align: top;
+  margin-top: -1px;
+}
+
+.graphnav p{
+  margin: 0px;
+}
+
+.graphnav #week {
+  padding:0px 10px;
+  font-weight:600;
+  margin-top: 8px;
+  color:#663399;
+
+}
+
+#graphspacer{
+  height:80px;
+  width:100%;
+}
+
+#nodata{
+  font-size:2em;
+  text-align:center;
+  width:100%;
+  padding-top:20px;
+}
+
+#allGraphs #graphcontainer{
+  display: flex;
+}
+
+.graph_inner{
+  width:70%;
+  padding-right: 20px;
+}
+.graph_total{
+  width:30%;
+  display: flex;
+justify-content: center;
+align-items: center;
+}
+
+.graph_total_inner{
+
+  padding:40px 20px;
+  text-align:center;
+  color: white;
+  font-size:12px;
+  border-radius:10px;
+  background-repeat: no-repeat;
+  background-size:contain;
+  background-position:center center;
+  width:100%;
+}
+.totalgraph-L .graph_total_inner{
+  background-image: url('/images/icons/L.png');
+  color: #663399;
+  padding-bottom: 70px;
+  /*background-color: #f9d644;*/
+}
+
+.totalgraph-G .graph_total_inner{
+  background-image: url('/images/icons/G.png');
+  /*background-color: #64b46a;*/
+}
+.totalgraph-S .graph_total_inner{
+  background-image: url('/images/icons/S.png');
+  /*background-color: #51a1d6;*/
+}
+
+
+.graph_total_inner .title{
+  font-weight:600;
+  font-size:1.2em;
+
+}
+.graphs{
+
+}
+
+svg {
+  width: 100%;
+}
+
+.bar {
+
+}
+
+text {
+  padding-top:10px;
+  font-size: 24px;
+  fill: #000;
+}
+
+path {
+  stroke: gray;
+}
+
+line {
+  stroke: gray;
+}
+
+line#limit {
+  stroke: #FED966;
+  stroke-width: 3;
+  stroke-dasharray: 3 6;
+}
+
+.grid path {
+  stroke-width: 0;
+}
+
+.grid .tick line {
+  stroke: #9FAAAE;
+  stroke-opacity: 0.3;
+}
+
+text.divergence {
+  font-size: 14px;
+  fill: #2F4A6D;
+}
+
+text.value {
+  font-size: 20px;
+}
+
+text.title {
+  font-size: 30px;
+  font-weight: 600;
+}
+
+text.label {
+  font-size: 25px;
+  font-weight: 400;
+}
+
+text.source {
+  font-size: 10px;
+}
+
+
+//*  INPUT PAGE  */
+
+.data_input{
+  margin-top:100px;
+}
+.slide_container {
+  width: 100%; /* Width of the outside container */
+}
+
+/* The slider itself */
+.slider {
+  -webkit-appearance: none;  /* Override default CSS styles */
+  appearance: none;
+  width: 100%; /* Full-width */
+  height: 25px; /* Specified height */
+  outline: none; /* Remove outline */
+  opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+  -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+  transition: opacity .2s;
+}
+
+.slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 15px;
+  border-radius: 5px;
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+@media only screen and (max-width: 650px){
+  #allGraphs #graphcontainer{
+    display:block;
+  }
+  .graph_inner{
+    width:100%;
+  }
+  .graph_total{
+    width:100%;
+    padding: 40px 0px 20px 0px;
+  }
+
+  #data-point .content{
+    margin: 0px !important;
+    width:80px;
+  }
+  #data-point .time {
+    border-bottom:0px;
+  }
+  #title_inner{
+    font-size: 13px;
+  }
+  text {
+    font-size: 35px;
+  }
+  text.value {
+    font-size: 30px;
+  }
+  text.title {
+    font-size: 45px;
+  }
+
+  text.label {
+    font-size: 35px;
+  }
+  .graphnav{
+    font-size:13px;
+    padding: 0 20px 0 20px;
+  }
+  .graphnav a{
+    padding: 5px 5px;
+  }
+  .week_text{
+    display:none;
+  }
+  #filter_inner{
+    display:none;
+  }
+  .filters img{
+    height:20px;
+  }
+}

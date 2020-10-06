@@ -1,0 +1,202 @@
+<!doctype html>
+<!--
+Copyright 2015 Google Inc. All rights reserved.
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+https://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="Become more sustainable">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YourEco</title>
+
+  <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
+  <script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyA8wviTpuknpT7if4KHmRVrdBmuv-lFC4s",
+    authDomain: "youreco-c4a94.firebaseapp.com",
+    databaseURL: "https://youreco-c4a94.firebaseio.com",
+    projectId: "youreco-c4a94",
+    storageBucket: "youreco-c4a94.appspot.com",
+    messagingSenderId: "798496799004"
+  };
+  firebase.initializeApp(config);
+  </script>
+
+  <!-- Disable tap highlight on IE -->
+  <meta name="msapplication-tap-highlight" content="no">
+  <!--<link rel="icon" href="images/favicon.ico">-->
+
+  <!-- Add to homescreen for Chrome on Android -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="application-name" content="YourEco">
+  <meta name="theme-color" content="#4CA64C">
+
+  <!-- Add to homescreen for Safari on iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="YourEco">
+  <meta name="apple-mobile-web-app-status-bar-style" content="#4CA64C">
+
+  <!-- Tile icon for Win8 -->
+  <!-- <meta name="msapplication-TileColor" content="#3372DF">
+  <meta name="msapplication-navbutton-color" content="#303F9F"> -->
+
+  <!-- Material Design Components -->
+  <link rel="stylesheet"
+  href="https://unpkg.com/material-components-web@0.39.3/dist/material-components-web.min.css">
+  <script src="https://unpkg.com/material-components-web@0.39.3/dist/material-components-web.js"></script>
+
+  <!-- App Styling -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="/styles/main.css">
+
+  <!-- Firebase Auth -->
+  <script src="https://cdn.firebase.com/libs/firebaseui/3.4.1/firebaseui.js"></script>
+  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.4.1/firebaseui.css" />
+
+</head>
+<body>
+  <div>
+    <div class="header"></div>
+    <main></main>
+
+    <div hidden class="template" id="header-base-dashboard">
+      <header id="site-header" class="mdc-toolbar mdc-toolbar--fixed">
+        <div id="title" class="mdc-toolbar__row mdc-layout-grid">
+          <section class="mdc-toolbar__section mdc-toolbar__section--align-start">
+            <span id="title_inner" class="mdc-toolbar__title">YourEco</span>
+            <div class="menubuttons">
+              <a id="dashboard_button" class="material-icons">dashboard</a>
+              <a id="timeline_button" class="material-icons">timeline</a>
+
+            </div>
+          </section>
+        </div>
+        <div id="section-header" data-fir-if="hasSectionHeader"></div>
+      </header>
+    </div>
+
+    <div hidden class="template" id="header-base-timeline">
+      <header id="site-header" class="mdc-toolbar mdc-toolbar--fixed">
+        <div id="title" class="mdc-toolbar__row mdc-layout-grid">
+          <section class="mdc-toolbar__section mdc-toolbar__section--align-start">
+            <span id="title_inner" class="mdc-toolbar__title">YourEco</span>
+
+            <div class="menubuttons filters">
+              <span id="filter_inner" class="mdc-toolbar__title">filters</span>
+              <a id="filter-light"><img src="/images/icons/L.png" /></a>
+              <a id="filter-garbage"><img src="/images/icons/G.png" /></a>
+              <a id="filter-shower"><img src="/images/icons/S.png" /></a>
+              <a id="filter-reset" class="material-icons">refresh</a>
+            </div>
+            <div class="menubuttons">
+              <a id="dashboard_button" class="material-icons">dashboard</a>
+              <a id="timeline_button" class="material-icons">timeline</a>
+
+            </div>
+          </section>
+        </div>
+        <div id="section-header" data-fir-if="hasSectionHeader"></div>
+      </header>
+    </div>
+
+    <div id="firebaseui-auth-container"></div>
+
+    <div hidden class="template timeline" id="timeline">
+      <div id="data-point-container" class="">
+        <div id='graphspacer'></div>
+        <div id="data-points" class=""></div>
+      </div>
+    </div>
+
+    <div hidden class="template" id="input">
+      <div id="data-point-container" class="">
+        <div id='graphspacer'></div>
+        <div id="data-points" class=""></div>
+      </div>
+    </div>
+
+    <div hidden class="template" id="dashboard">
+      <div id='graphspacer'></div>
+      <div class="graphnav">
+        <a id="previous_week"><span class="material-icons">skip_previous</span><span class="week_text"> Vorige Week</span></a>
+        <p id="week"></p>
+        <a id="next_week"><span class="week_text">Volgende Week </span><span class="material-icons">skip_next</span></a>
+      </div>
+      <div id='allGraphs'></div>
+    </div>
+
+    <div hidden class="template" id="graphcontainer">
+      <div class="graph_total">
+        <div class="graph_total_inner">
+        <div class="title">TOTAAL</div>
+        <div class="totalvalues1"></div>
+        <div class="totalvalues2"></div>
+      </div>
+      </div>
+      <div class="graph_inner">
+        <svg />
+      </div>
+      <div class="graph_seperator"></div>
+    </div>
+
+    <div hidden class="template" id="nodata">
+      <p>Sorry - er is geen data van voor deze weken!</p>
+    </div>
+
+    <div hidden class="template" id="data-date">
+      <div class="date"></div>
+    </div>
+
+    <div hidden class="template" id="data-point">
+      <div class="data" data-fir-click="get_data_info">
+        <div class="type"></div>
+        <div class="content">
+          <div class="time"></div>
+          <div class="value"></div>
+          <div class="co2"></div>
+        </div>
+      </div>
+      <div class="point_spacer"></div>
+    </div>
+
+    <div hidden class="template" id="data-input">
+      <div class="data_input" data-fir-click="get_data_info">
+        <div class="L_slider"></div>
+        <div class="slide_container">
+        <input type="range" min="1" max="200" value="100" class="slider" id="L_slider">
+      </div>
+      <div class="value"><p>Sensor Waarde: <span id="L_input"></span> minuten</p></div>
+        <div class="slider_submit" id="L_submit"></div>
+      </div>
+      <div class="point_spacer"></div>
+    </div>
+  </div>
+
+  <script src="/__/firebase/5.5.8/firebase-app.js"></script>
+  <script src="/__/firebase/5.5.8/firebase-auth.js"></script>
+  <script src="/__/firebase/5.5.8/firebase-firestore.js"></script>
+  <script src="/__/firebase/init.js"></script>
+
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="/scripts/YourEco.js"></script>
+  <script src="/scripts/YourEco.View.js"></script>
+  <script src="/scripts/YourEco.Data.js"></script>
+  <script src="/scripts/YourEco.Graph.js"></script>
+
+  <script src="//unpkg.com/navigo@6"></script>
+
+</body>
+</html>
