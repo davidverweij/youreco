@@ -18,8 +18,6 @@ admin.firestore().settings({timestampsInSnapshots: true});
 
 exports.trigger = functions.https.onRequest((req, res) => {
 
-  // curl -H  "Content-Type: application/json" --data '{"token":"youreco_firestore","path":"2018_11_22-garbage.csv", "prefix":"HuishoudenTest", "user":"useruser"}' https://us-central1-youreco-c4a94.cloudfunctions.net/trigger
-
   if (req.body.token === "youreco_firestore"){
     //console.log("received path is : " + req.body.path);
     const database = admin.firestore();
@@ -72,30 +70,3 @@ exports.firestoreDataTrigger = functions.firestore.document('dropboxtrigger/{tri
     .then(() => resolve(console.log('file uploaded into database!')));
   });
 });
-/*
-function readData(file){
-return new Promise((resolve, reject) => {
-var lineReader = require('readline').createInterface({
-input: require('fs').createReadStream(file)
-});
-lineReader.on('line', (line) => {
-console.log('Line from file:', line);
-}).on('close', () => {
-return resolve(console.log('Have a great day!'));
-});
-});
-}
-*/
-
-/*
-function readFile(file){
-return new Promise((resolve, reject) => {
-var fr = new FileReader();
-fr.onloadend = (result) => {
-console.log(result);
-console.log(fr.result);
-return resolve(result)
-};
-fr.readAsArrayBuffer(file);
-});
-}*/
