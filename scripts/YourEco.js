@@ -88,6 +88,11 @@ YourEco.prototype.initRouter = function() {
     }
   })
   .on({
+    '/input': function() {
+      that.viewInput();
+    }
+  })
+  .on({
     '/dashboard/:id': function(params) {
       that.viewDashboard(params.id);
     }

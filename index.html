@@ -79,10 +79,11 @@ limitations under the License
       <header id="site-header" class="mdc-toolbar mdc-toolbar--fixed">
         <div id="title" class="mdc-toolbar__row mdc-layout-grid">
           <section class="mdc-toolbar__section mdc-toolbar__section--align-start">
-            <span id="title_inner" class="mdc-toolbar__title">YourEco&nbsp;/&nbsp;</span>
+            <span id="title_inner" class="mdc-toolbar__title">YourEco</span>
             <div class="menubuttons">
               <a id="dashboard_button" class="material-icons">dashboard</a>
               <a id="timeline_button" class="material-icons">timeline</a>
+
             </div>
           </section>
         </div>
@@ -94,7 +95,7 @@ limitations under the License
       <header id="site-header" class="mdc-toolbar mdc-toolbar--fixed">
         <div id="title" class="mdc-toolbar__row mdc-layout-grid">
           <section class="mdc-toolbar__section mdc-toolbar__section--align-start">
-            <span id="title_inner" class="mdc-toolbar__title">YourEco&nbsp;/&nbsp;</span>
+            <span id="title_inner" class="mdc-toolbar__title">YourEco</span>
 
             <div class="menubuttons filters">
               <span id="filter_inner" class="mdc-toolbar__title">filters</span>
@@ -106,6 +107,7 @@ limitations under the License
             <div class="menubuttons">
               <a id="dashboard_button" class="material-icons">dashboard</a>
               <a id="timeline_button" class="material-icons">timeline</a>
+              
             </div>
           </section>
         </div>
@@ -116,6 +118,13 @@ limitations under the License
     <div id="firebaseui-auth-container"></div>
 
     <div hidden class="template timeline" id="timeline">
+      <div id="data-point-container" class="">
+        <div id='graphspacer'></div>
+        <div id="data-points" class=""></div>
+      </div>
+    </div>
+
+    <div hidden class="template" id="input">
       <div id="data-point-container" class="">
         <div id='graphspacer'></div>
         <div id="data-points" class=""></div>
@@ -162,6 +171,18 @@ limitations under the License
           <div class="value"></div>
           <div class="co2"></div>
         </div>
+      </div>
+      <div class="point_spacer"></div>
+    </div>
+
+    <div hidden class="template" id="data-input">
+      <div class="data_input" data-fir-click="get_data_info">
+        <div class="L_slider"></div>
+        <div class="slide_container">
+        <input type="range" min="1" max="200" value="100" class="slider" id="L_slider">
+      </div>
+      <div class="value"><p>Sensor Waarde: <span id="L_input"></span> minuten</p></div>
+        <div class="slider_submit" id="L_submit"></div>
       </div>
       <div class="point_spacer"></div>
     </div>

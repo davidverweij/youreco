@@ -82,8 +82,8 @@ YourEco.prototype.getGraphData = function(renderer, uid, timestamp, secondtimest
 };
 
 YourEco.prototype.getGraphsInQuery = function(query, renderer, timestamp) {
-  query.onSnapshot(function(snapshot) {
-    if (!snapshot.size) {
+  query.get().then((snapshot) =>{
+    if (snapshot.empty) {
       renderer.empty();
       return;
     }
@@ -105,19 +105,15 @@ YourEco.prototype.getGraphsInQuery = function(query, renderer, timestamp) {
 
     var days = [];
     for (var i = 1; i < 8; i++){
-      var nextday = new Date();
-      nextday.setDate(timestamp.getDate() + i);
+      var nextday = new Date((timestamp.getTime() + (i * 1000*60*60*24)));
 
       nextday.setHours(3); nextday.setMinutes(0); nextday.setSeconds(0); nextday.setMilliseconds(0);
       days.push(nextday);
     }
 
-    snapshot.docChanges().forEach(function(change) {
-      if (change.type === 'removed') {
+    snapshot.forEach(function(doc) {
 
-      } else {
-
-        var data = change.doc.data();
+        var data = doc.data();
         var dataDate = data.timestamp.toDate();
         //console.log(dataDate);
 
@@ -143,7 +139,7 @@ YourEco.prototype.getGraphsInQuery = function(query, renderer, timestamp) {
         } else if (dataDate < days[6]){
           weekdata[sensortype][6] += data.eventvalue;
         }
-      }
+
     });
 
     const calcu = [(1/60), 1, (1/60)];

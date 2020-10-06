@@ -25,6 +25,46 @@ YourEco.prototype.initTemplates = function() {
   });
 };
 
+YourEco.prototype.viewInput = function() {
+
+  var mainEl = this.renderTemplate('input');
+  var headerEl = this.renderTemplate('header-base-dashboard', {
+    hasSectionHeader: true
+  });
+
+  mainEl.classList.add("main_css");
+
+  //headerEl.querySelector('#title_inner').append(firebase.auth().currentUser.displayName);
+  headerEl.querySelector('#dashboard_button').addEventListener('click', function(){
+    that.week = 0;
+    that.router.navigate('/dashboard/'+that.week);
+  });
+  headerEl.querySelector('#timeline_button').addEventListener('click', function(){that.router.navigate('/timeline');});
+
+  headerEl.querySelector('#timeline_button').addEventListener('click', function(){that.router.navigate('/timeline');});
+
+  var slider = document.getElementById("L_slider").oninput = function() {document.getElementById("L_value").innerHTML = this.value;}
+
+
+  var sensorNames = {
+    'L': 'Licht Sensor',
+    'G': 'Afval Sensor',
+    'S': 'Douche Sensor'
+  };
+
+  this.replaceElement(document.querySelector('.header'), headerEl);
+  this.replaceElement(document.querySelector('main'), mainEl);
+
+  var that = this;
+
+  var pre_el = that.renderTemplate('data-input');
+  mainEl.querySelector('#data-points').append(pre_el);
+
+//  this.getAllDataPoints(renderer, firebase.auth().currentUser.uid);
+
+
+};
+
 YourEco.prototype.viewTimeline = function() {
 
   var mainEl = this.renderTemplate('timeline');
@@ -34,7 +74,7 @@ YourEco.prototype.viewTimeline = function() {
 
   mainEl.classList.add("main_css");
 
-  headerEl.querySelector('#title_inner').append(firebase.auth().currentUser.displayName);
+  //headerEl.querySelector('#title_inner').append(firebase.auth().currentUser.displayName);
   headerEl.querySelector('#dashboard_button').addEventListener('click', function(){
     that.week = 0;
     that.router.navigate('/dashboard/'+that.week);
@@ -158,7 +198,7 @@ YourEco.prototype.viewDashboard = function(week) {
     mainEl.querySelector('#next_week').style.opacity = 0;
   }
 
-  headerEl.querySelector('#title_inner').append(firebase.auth().currentUser.displayName);
+  //headerEl.querySelector('#title_inner').append(firebase.auth().currentUser.displayName);
   headerEl.querySelector('#dashboard_button').addEventListener('click', function(){
     that.week = 0;
     that.router.navigate('/dashboard/'+that.week);
@@ -234,11 +274,11 @@ YourEco.prototype.viewDashboard = function(week) {
       that.renderGraph(sample, maximum, y_text, title, type);     //[sample, y_text, title]
     },
     empty: function(){
-      that.weekData = false;
-      mainEl.querySelector('#previous_week').style.opacity = 0;
+      that.weekData = true;
+      /*mainEl.querySelector('#previous_week').style.opacity = 0;
       var el = that.renderTemplate('nodata');   //create new datapoint class
       mainEl.querySelector('#allGraphs').append(el);  //add to list of all elements
-      that.renderGraph(sample, maximum, y_text, title, type);     //[sample, y_text, title]
+      that.renderGraph(sample, maximum, y_text, title, type);     //[sample, y_text, title]*/
     }
   };
 

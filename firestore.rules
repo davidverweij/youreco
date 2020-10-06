@@ -6,8 +6,16 @@ service cloud.firestore {
         //   - Deletes are not allowed
 
         match /{userId}/{datapoints} {
-    allow read, write, update: if request.auth.uid == userId;
-    allow delete: if false;
-  }
+            allow read, write, update: if request.auth.uid == userId;
+            allow delete: if false;
+        }
+        match /users/{userId} {
+            allow read, write, update: if request.auth.uid == userId;
+            allow delete: if false;
+        }
+        match /users/{userId}/visit/{document=**} {
+            allow read, write, update: if request.auth.uid == userId;
+            allow delete: if false;
+        }
   }
 }
